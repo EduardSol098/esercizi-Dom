@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOTR Card</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 250px;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Lord of the Rings Card</h1>
+
+    <div class="card">
+        <h2 id="name">Caricamento...</h2>
+        <img id="image" src="" alt="card image">
+    </div>
+
+    <script>
+        // (una carta casuale)
+        const url = "https://ringsdb.com/api/public/cards/";
+
+        async function getCard() {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                // prendo una carta casuale dall'array
+                const card = data[Math.floor(Math.random() * data.length)];
+
+                // nome personaggio
+                document.getElementById("name").innerText = card.name;
+
+                // immagine (se disponibile)
+                document.getElementById("image").src = card.imagesrc || "";
+                document.getElementById("image").alt = card.name;
+
+
+            } catch (error) {
+                console.log("Errore nel fetch:", error);
+                document.getElementById("name").innerText = "Errore caricamento carta";
+            }
+        }
+
+        getCard();
+    </script>
+
+</body>
+</html>
